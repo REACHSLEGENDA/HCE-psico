@@ -74,16 +74,16 @@ export const PIE_TRASPLANTE = [
 ];
 
 export const BLOG_POSTS = [
-  { id: 'b01', titulo: 'La culpa del superviviente: cuando recibir un órgano duele', categoria: 'Duelo',         min: 7,  fecha: '12 may 2026', resumen: 'Después del trasplante, muchos pacientes experimentan culpa hacia el donante. Hablemos de cómo transitar esa emoción sin que se convierta en obstáculo para sanar.', autor: 'Dra. Mariana Castillo', color: '#7B2D8E' },
-  { id: 'b02', titulo: 'Adherencia al tratamiento: el reto silencioso del post-trasplante', categoria: 'Adherencia', min: 5, fecha: '03 may 2026', resumen: 'No tomar los inmunosupresores es la causa #1 de rechazo tardío. Estrategias psicológicas reales para no olvidar lo que más importa.', autor: 'Dra. Mariana Castillo', color: '#F39200' },
-  { id: 'b03', titulo: 'Cuando el cuidador también necesita cuidados',                       categoria: 'Familia',    min: 6, fecha: '21 abr 2026', resumen: 'La pareja, los hijos, los padres. El trasplante es de uno pero impacta a toda la familia. Cómo sostener al que sostiene.', autor: 'Dra. Mariana Castillo', color: '#7B2D8E' },
-  { id: 'b04', titulo: 'Lista de espera: vivir entre la esperanza y la incertidumbre',       categoria: 'Pre-trasplante', min: 8, fecha: '10 abr 2026', resumen: 'Ser candidato es esperar. Y esperar duele. Cinco herramientas para no perderte mientras llega tu turno.', autor: 'Dra. Mariana Castillo', color: '#F39200' },
-  { id: 'b05', titulo: 'El cuerpo recuerda: somatización después del trasplante',           categoria: 'Cuerpo y mente', min: 6, fecha: '28 mar 2026', resumen: 'Insomnio, dolores difusos, fatiga. Cuando el cuerpo procesa lo que la mente todavía no nombra.', autor: 'Dra. Mariana Castillo', color: '#7B2D8E' },
-  { id: 'b06', titulo: 'Pediátrico: explicarle a un niño que necesita un trasplante',       categoria: 'Pediátrico', min: 9, fecha: '14 mar 2026', resumen: 'Un lenguaje que no asuste pero no mienta. Recursos prácticos para padres y para el equipo médico.', autor: 'Dra. Mariana Castillo', color: '#F39200' }
+  { id: 'b01', titulo: 'La culpa del superviviente: cuando recibir un órgano duele', categoria: 'Duelo',         min: 7,  fecha: '12 may 2026', resumen: 'Después del trasplante, muchos pacientes experimentan culpa hacia el donante. Hablemos de cómo transitar esa emoción sin que se convierta en obstáculo para sanar.', autor: 'Dra. Xenia Lorena López Martínez', color: '#7B2D8E' },
+  { id: 'b02', titulo: 'Adherencia al tratamiento: el reto silencioso del post-trasplante', categoria: 'Adherencia', min: 5, fecha: '03 may 2026', resumen: 'No tomar los inmunosupresores es la causa #1 de rechazo tardío. Estrategias psicológicas reales para no olvidar lo que más importa.', autor: 'Dra. Xenia Lorena López Martínez', color: '#F39200' },
+  { id: 'b03', titulo: 'Cuando el cuidador también necesita cuidados',                       categoria: 'Familia',    min: 6, fecha: '21 abr 2026', resumen: 'La pareja, los hijos, los padres. El trasplante es de uno pero impacta a toda la familia. Cómo sostener al que sostiene.', autor: 'Dra. Xenia Lorena López Martínez', color: '#7B2D8E' },
+  { id: 'b04', titulo: 'Lista de espera: vivir entre la esperanza y la incertidumbre',       categoria: 'Pre-trasplante', min: 8, fecha: '10 abr 2026', resumen: 'Ser candidato es esperar. Y esperar duele. Cinco herramientas para no perderte mientras llega tu turno.', autor: 'Dra. Xenia Lorena López Martínez', color: '#F39200' },
+  { id: 'b05', titulo: 'El cuerpo recuerda: somatización después del trasplante',           categoria: 'Cuerpo y mente', min: 6, fecha: '28 mar 2026', resumen: 'Insomnio, dolores difusos, fatiga. Cuando el cuerpo procesa lo que la mente todavía no nombra.', autor: 'Dra. Xenia Lorena López Martínez', color: '#7B2D8E' },
+  { id: 'b06', titulo: 'Pediátrico: explicarle a un niño que necesita un trasplante',       categoria: 'Pediátrico', min: 9, fecha: '14 mar 2026', resumen: 'Un lenguaje que no asuste pero no mienta. Recursos prácticos para padres y para el equipo médico.', autor: 'Dra. Xenia Lorena López Martínez', color: '#F39200' }
 ];
 
 export const TESTIMONIOS = [
-  { id: 't01', autor: 'Daniela R.', meta: 'Trasplante hepático, 2024', texto: 'Pasé del miedo total a sentirme acompañada. La Dra. Mariana no solo escucha — entiende el cuerpo del trasplantado.' },
+  { id: 't01', autor: 'Daniela R.', meta: 'Trasplante hepático, 2024', texto: 'Pasé del miedo total a sentirme acompañada. La Dra. Xenia no solo escucha — entiende el cuerpo del trasplantado.' },
   { id: 't02', autor: 'Familia Méndez', meta: 'Trasplante de su hijo Iván, 2025', texto: 'Las sesiones de familia nos salvaron. Aprendimos a hablar de lo que ninguno se atrevía a decir.' },
   { id: 't03', autor: 'Sergio L.', meta: 'En lista de espera renal', texto: 'Esperar te rompe. Esta consulta me dio herramientas para sostenerme — no para "estar bien", para estar real.' }
 ];
@@ -120,7 +120,7 @@ export const MENSAJES = [
 ];
 
 export const PLANTILLAS = [
-  { id: 'pl1', titulo: 'Confirmación de cita',     texto: 'Hola {nombre}, te confirmo nuestra sesión el {fecha} a las {hora}. Te espero. — Dra. Mariana' },
+  { id: 'pl1', titulo: 'Confirmación de cita',     texto: 'Hola {nombre}, te confirmo nuestra sesión el {fecha} a las {hora}. Te espero. — Dra. Xenia' },
   { id: 'pl2', titulo: 'Recordatorio 24h',         texto: 'Hola {nombre}, te recuerdo nuestra cita mañana a las {hora}. Si necesitas reagendar, avísame con tiempo 🙏' },
   { id: 'pl3', titulo: 'Reposición de cita',       texto: 'Hola {nombre}, lamento que no pudiéramos vernos. Te propongo estas opciones: {opciones}.' },
   { id: 'pl4', titulo: 'Tarea — diario emocional', texto: 'Como hablamos en sesión, te dejo la plantilla de diario emocional. Llévala diaria 5 minutos.' },

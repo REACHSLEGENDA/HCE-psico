@@ -30,7 +30,7 @@ export function PublicNav({ page, setPage }) {
         <div className="flex items-center gap-3">
 
           <Button variant="naranja" size="sm" icon="whatsapp" className="hidden lg:inline-flex">
-            55 4421 1198
+            55 3196 7446
           </Button>
           <button onClick={() => setOpen(o=>!o)} className="md:hidden p-2 rounded-lg hover:bg-morado-50 text-morado-600 cursor-pointer">
             <Icon name={open?'x':'menu'} size={22}/>
@@ -112,8 +112,8 @@ export function Home({ setPage }) {
                 </Card>
                 <Card padding="p-5" className="bg-morado text-white">
                   <Icon name="stethoscope" size={22} className="mb-2 text-naranja-300"/>
-                  <div className="font-bold mb-1">Dra. Mariana Castillo</div>
-                  <div className="text-xs text-white/70">Psicología médica · UNAM · Especialidad INER</div>
+                  <div className="font-bold mb-1">Dra. Xenia Lorena López Martínez</div>
+                  <div className="text-xs text-white/70">Psicóloga Clínica · Especialista en Trasplante · Instituto Nacional de Cardiología</div>
                 </Card>
                 <div className="bg-naranja rounded-2xl p-5 text-white shadow-card">
                   <div className="text-3xl font-extrabold font-serif">8+</div>
@@ -192,13 +192,13 @@ export function Home({ setPage }) {
             <div className="text-white">
               <Pill tone="naranja" className="mb-4">Sobre mí</Pill>
               <h2 className="font-serif text-3xl md:text-5xl leading-[1.05] font-semibold mb-5" style={{textWrap:'pretty'}}>
-                Soy Mariana. Llevo casi una década en unidades de <span className="italic text-naranja-300">trasplante de órganos</span>.
+                Soy Xenia. Llevo más de una década en unidades de <span className="italic text-naranja-300">trasplante de órganos</span>.
               </h2>
               <p className="text-white/85 text-lg leading-relaxed mb-5">
-                Estudié psicología en la UNAM y me especialicé en psicología médica en el INER. Empecé a trabajar con pacientes pulmonares y poco a poco descubrí que el trasplante necesitaba algo más que una psicóloga generalista — necesitaba a alguien que entendiera el cuerpo del trasplantado por dentro.
+                Psicóloga clínica con más de 10 años de experiencia, enfocada en el tratamiento psicoterapéutico de pacientes adultos y adolescentes, y en el desarrollo de programas psicológicos para pacientes hospitalizados. Actualmente me desempeño como Psicóloga de Trasplante en el Instituto Nacional de Cardiología, brindando atención integral pre y post-trasplante renal y cardíaco desde un enfoque Gestalt-Transpersonal.
               </p>
               <p className="text-white/75 leading-relaxed mb-8">
-                Hoy acompaño pacientes renales, hepáticos, cardíacos, pulmonares, de médula y córnea. También a sus familias. Trabajo en consultorio en la Roma Norte y por videollamada en todo México.
+                Trabajo en Tlalpan, CDMX, y por videollamada a nivel nacional.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button variant="naranja" onClick={() => setPage('about')}>Ver mi historia completa</Button>
@@ -244,7 +244,7 @@ export function Home({ setPage }) {
                 Cápsulas educativas <span className="italic text-naranja">hechas para ti</span> y tu proceso
               </h2>
               <p className="text-tinta-600 leading-relaxed mb-6">
-                Videos cortos, lecturas y herramientas prácticas que la Dra. Mariana te asigna según tu etapa: pre-trasplante, post-trasplante o familiar.
+                Videos cortos, lecturas y herramientas prácticas que la Dra. Xenia te asigna según tu etapa: pre-trasplante, post-trasplante o familiar.
               </p>
               <div className="space-y-3 mb-7">
                 {[
@@ -298,7 +298,7 @@ export function Home({ setPage }) {
             <p className="text-white/90 text-lg mb-7 max-w-2xl mx-auto">Primera consulta de 80 min para conocernos y trazar el camino — sin compromiso.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Button variant="white" size="lg" icon="calendar" onClick={() => setPage('agendar')}>Agendar primera consulta</Button>
-              <Button variant="outlineWhite" size="lg" icon="whatsapp">55 4421 1198</Button>
+              <Button variant="outlineWhite" size="lg" icon="whatsapp">55 3196 7446</Button>
             </div>
           </div>
         </div>
@@ -570,7 +570,7 @@ export function Agendar() {
               <h3 className="font-bold text-sm">Qué incluye</h3>
             </div>
             <ul className="space-y-2 text-sm text-tinta-600 text-left">
-              {['Sesión con la Dra. Mariana','Acceso a la Mini Escuelita','Notas clínicas para tu equipo médico (opcional)','Reagendado gratis hasta 24 hrs antes'].map((t,i) => (
+              {['Sesión con la Dra. Xenia','Acceso a la Mini Escuelita','Notas clínicas para tu equipo médico (opcional)','Reagendado gratis hasta 24 hrs antes'].map((t,i) => (
                 <li key={i} className="flex gap-2"><Icon name="check" size={16} className="text-morado mt-0.5 flex-shrink-0"/>{t}</li>
               ))}
             </ul>
@@ -580,7 +580,7 @@ export function Agendar() {
               <Icon name="info" size={22} className="flex-shrink-0 mt-0.5"/>
               <div>
                 <div className="font-bold mb-1">¿Es una urgencia?</div>
-                <p className="text-sm text-white/90 leading-relaxed mb-3">Si estás en crisis, llámame directo: <strong>55 4421 1198</strong></p>
+                <p className="text-sm text-white/90 leading-relaxed mb-3">Si estás en crisis, llámame directo: <strong>55 3196 7446</strong></p>
                 <Button variant="white" size="sm" icon="phone">Llamar ahora</Button>
               </div>
             </div>
@@ -624,16 +624,16 @@ export function About() {
         <div className="relative">
           <DoctorPortrait className="w-full max-w-sm rounded-3xl shadow-card"/>
           <div className="absolute -bottom-4 -right-4 bg-naranja text-white px-5 py-3 rounded-2xl shadow-card font-bold text-sm">
-            8+ años en trasplante
+            10+ años de experiencia
           </div>
         </div>
         <div>
           <Pill tone="morado" className="mb-4">La doctora</Pill>
           <h1 className="font-serif text-4xl md:text-5xl text-tinta font-semibold leading-tight mb-5" style={{textWrap:'pretty'}}>
-            Dra. <span className="italic text-morado">Mariana Castillo</span> Hidalgo
+            Dra. <span className="italic text-morado">Xenia Lorena López Martínez</span>
           </h1>
           <p className="text-tinta-600 text-lg leading-relaxed mb-4">
-            Psicóloga médica especializada en pacientes de trasplante de órganos. UNAM. Maestría en Psicología de la Salud por el INER. Cédula profesional 9881234.
+            Psicóloga de Trasplante en el Instituto Nacional de Cardiología. Licenciada en Psicología por la UNAM, con Especialidad en Psicoterapia Transpersonal y Diplomado en Psiconefrología. Cédula profesional 12105016.
           </p>
           <p className="text-tinta-600 leading-relaxed">
             "Mi trabajo no es hacer que el trasplante sea fácil. Es hacer que no estés sola mientras lo atraviesas."
@@ -645,10 +645,12 @@ export function About() {
         <h2 className="font-serif text-3xl font-semibold text-tinta mb-6">Formación</h2>
         <div className="space-y-5">
           {[
-            { y: '2024', t: 'Diplomado en duelo y enfermedad crónica', i: 'Universidad Iberoamericana'},
-            { y: '2019', t: 'Maestría en Psicología de la Salud', i: 'Instituto Nacional de Enfermedades Respiratorias (INER)'},
-            { y: '2017', t: 'Especialidad clínica en unidades médicas', i: 'Hospital General de México · Servicio de Nefrología'},
-            { y: '2014', t: 'Licenciatura en Psicología', i: 'Facultad de Psicología, UNAM'}
+            { y: '2026', t: 'Maestría en Terapia Gestalt (En curso)', i: 'Instituto Humanista de Psicoterapia Gestalt'},
+            { y: '2025', t: 'Diplomado en Psiconefrología', i: 'UNAM – Centro de Investigación y Desarrollo de la Psiconefrología'},
+            { y: '2025', t: 'Perfeccionamiento en Psiquiatría de Enlace y Medicina Psicosomática', i: 'Hospital Clínic de Barcelona, España'},
+            { y: '2019', t: 'Diplomado en Administración Estratégica de Recursos Humanos', i: 'UNAM – FCA'},
+            { y: '2015', t: 'Especialidad en Psicoterapia Transpersonal', i: 'AMAPSI-UNAM'},
+            { y: '2014', t: 'Licenciatura en Psicología (Cédula 12105016)', i: 'UNAM – Facultad de Psicología'}
           ].map((f, i) => (
             <div key={i} className="flex gap-5 pb-5 border-b last:border-b-0 border-crema-200">
               <div className="w-16 flex-shrink-0">
@@ -676,7 +678,7 @@ export function EscuelitaPub() {
           Aprende a tu <span className="italic text-morado">propio ritmo</span>
         </h1>
         <p className="text-tinta-600 text-lg leading-relaxed">
-          Cápsulas educativas que la Dra. Mariana ha curado para pacientes y familias. Algunas son públicas; la mayoría se activan cuando empiezas consulta.
+          Cápsulas educativas que la Dra. Xenia ha curado para pacientes y familias. Algunas son públicas; la mayoría se activan cuando empiezas consulta.
         </p>
       </div>
 
@@ -761,16 +763,16 @@ export function PublicFooter({ setPage }) {
         <div>
           <div className="font-bold mb-4 text-sm">Contacto</div>
           <ul className="space-y-2.5 text-sm text-white/75">
-            <li className="flex gap-2"><Icon name="pin" size={16} className="flex-shrink-0 mt-0.5"/> Roma Norte, CDMX</li>
-            <li className="flex gap-2"><Icon name="phone" size={16}/> 55 4421 1198</li>
-            <li className="flex gap-2"><Icon name="mail" size={16}/> hola@psicotrasplante.com</li>
+            <li className="flex gap-2"><Icon name="pin" size={16} className="flex-shrink-0 mt-0.5"/> Tlalpan, CDMX</li>
+            <li className="flex gap-2"><Icon name="phone" size={16}/> 55 3196 7446</li>
+            <li className="flex gap-2"><Icon name="mail" size={16}/> xenialorenalopezmartinez@gmail.com</li>
             <li className="flex gap-2"><Icon name="clock" size={16}/> Lun–Vie 9:00–19:00</li>
           </ul>
         </div>
       </div>
       <div className="relative border-t border-white/15">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 py-5 flex flex-col md:flex-row gap-2 justify-between items-center text-xs text-white/60">
-          <div>© 2026 Psicología Trasplante · Dra. Mariana Castillo H. · Cédula 9881234</div>
+          <div>© 2026 Psicología Trasplante · Dra. Xenia Lorena López Martínez · Cédula 12105016</div>
           <div className="flex gap-4">
             <a className="hover:text-white cursor-pointer">Aviso de privacidad</a>
             <a className="hover:text-white cursor-pointer">Términos</a>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import logoImg from '../assets/logo2.png';
+import doctorImg from '../assets/doctor.jpg';
 import {
   Home,
   Calendar,
@@ -256,7 +257,7 @@ export function WhatsAppFloat() {
               <Icon name="whatsapp" size={18} />
             </div>
             <div>
-              <div className="font-bold text-sm">Dra. Mariana Castillo</div>
+              <div className="font-bold text-sm">Dra. Xenia Lorena López Martínez</div>
               <div className="text-xs text-tinta-400">Responde en ~15 min</div>
             </div>
           </div>
@@ -275,42 +276,9 @@ export function WhatsAppFloat() {
   );
 }
 
-// ---------- Doctor portrait placeholder (illustrated) ----------
 export function DoctorPortrait({ className = '' }) {
   return (
-    <svg viewBox="0 0 320 380" className={className} aria-hidden="true">
-      <defs>
-        <clipPath id="dpClip"><rect x="0" y="0" width="320" height="380" rx="32"/></clipPath>
-      </defs>
-      <g clipPath="url(#dpClip)">
-        <rect width="320" height="380" fill="#FFE9C2"/>
-        <circle cx="60" cy="60" r="44" fill="#F39200" opacity=".25"/>
-        <circle cx="290" cy="80" r="32" fill="#7B2D8E" opacity=".18"/>
-        <circle cx="260" cy="340" r="56" fill="#F39200" opacity=".2"/>
-        <circle cx="40" cy="320" r="38" fill="#7B2D8E" opacity=".15"/>
-        {/* body */}
-        <path d="M40 380 C 40 290 90 250 160 250 C 230 250 280 290 280 380 Z" fill="#7B2D8E"/>
-        {/* coat collar */}
-        <path d="M100 280 L160 320 L220 280 L220 380 L100 380 Z" fill="#FFF8F0"/>
-        {/* neck */}
-        <rect x="142" y="218" width="36" height="40" rx="14" fill="#E8B68C"/>
-        {/* head */}
-        <ellipse cx="160" cy="180" rx="62" ry="68" fill="#EDC5A1"/>
-        {/* hair */}
-        <path d="M98 180 C 98 130 130 100 160 100 C 200 100 222 130 222 175 C 218 150 200 138 180 138 C 158 138 130 152 110 200 Z" fill="#3a2418"/>
-        {/* eyes */}
-        <ellipse cx="140" cy="180" rx="4" ry="6" fill="#2D2438"/>
-        <ellipse cx="180" cy="180" rx="4" ry="6" fill="#2D2438"/>
-        {/* smile */}
-        <path d="M142 208 Q 160 220 178 208" stroke="#2D2438" strokeWidth="3" fill="none" strokeLinecap="round"/>
-        {/* cheeks */}
-        <circle cx="125" cy="200" r="6" fill="#F39200" opacity=".3"/>
-        <circle cx="195" cy="200" r="6" fill="#F39200" opacity=".3"/>
-        {/* stethoscope */}
-        <path d="M140 290 C 130 320 150 340 160 360 C 170 340 190 320 180 290" stroke="#2D2438" strokeWidth="4" fill="none"/>
-        <circle cx="160" cy="362" r="9" fill="#2D2438"/>
-      </g>
-    </svg>
+    <img src={doctorImg} alt="Dra. Xenia Lorena López Martínez" className={`object-cover rounded-3xl aspect-[3/4] ${className}`} />
   );
 }
 

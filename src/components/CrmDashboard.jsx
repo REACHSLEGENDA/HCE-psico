@@ -56,9 +56,9 @@ export function Sidebar({ page, setPage }) {
 
       <div className="relative p-3 border-t border-white/10">
         <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/10 transition-all cursor-pointer">
-          <Avatar initials="MC" tone="naranja" size={34} status="online"/>
+          <Avatar initials="XL" tone="naranja" size={34} status="online"/>
           <div className="text-left flex-1 min-w-0">
-            <div className="text-sm font-bold leading-tight truncate">Dra. Mariana C.</div>
+            <div className="text-sm font-bold leading-tight truncate">Dra. Xenia L.</div>
             <div className="text-[11px] text-white/60 truncate">Psicología Médica</div>
           </div>
           <Icon name="chevronUp" size={14} className="text-white/60"/>
@@ -109,7 +109,7 @@ export function Dashboard({ openPaciente, setCrmPage }) {
           <div className="relative">
             <div className="text-naranja-300 text-xs font-bold uppercase tracking-wide mb-2">Jueves 28 de mayo, 2026</div>
             <h2 className="font-serif text-2xl md:text-3xl font-semibold mb-3 leading-tight" style={{textWrap:'pretty'}}>
-              Buenos días, Mariana. <br/>Hoy <span className="italic text-naranja-300">6 personas</span> te esperan.
+              Buenos días, Xenia. <br/>Hoy <span className="italic text-naranja-300">6 personas</span> te esperan.
             </h2>
             <p className="text-white/75 mb-5 max-w-md">Próxima cita en 12 min con María Elena Sandoval — seguimiento post-trasplante renal.</p>
             <div className="flex flex-wrap gap-2">
