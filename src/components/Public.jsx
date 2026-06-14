@@ -115,10 +115,10 @@ export function Home({ setPage }) {
                   <div className="font-bold mb-1">Dra. Xenia Lorena López Martínez</div>
                   <div className="text-xs text-white/70">Psicóloga Clínica · Especialista en Trasplante · Instituto Nacional de Cardiología</div>
                 </Card>
-                <div className="bg-naranja rounded-2xl p-5 text-white shadow-card">
-                  <div className="text-3xl font-extrabold font-serif">8+</div>
-                  <div className="text-sm text-white/85 leading-tight mt-1">años en unidades de trasplante</div>
-                </div>
+                <Card padding="p-5" className="bg-naranja text-white shadow-card">
+                  <div className="text-2xl font-extrabold font-serif">10+</div>
+                  <div className="text-xs text-white/85 leading-tight mt-1">años de experiencia clínica</div>
+                </Card>
               </div>
             </div>
           </div>

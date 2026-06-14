@@ -238,8 +238,9 @@ export function Button({ children, variant='primary', size='md', icon, iconRight
 
 // ---------- Card ----------
 export function Card({ children, className = '', interactive = false, padding = 'p-6' }) {
+  const hasBg = className.includes('bg-');
   return (
-    <div className={`bg-white rounded-2xl shadow-soft ${padding} ${interactive ? 'hover:shadow-card transition-shadow duration-200' : ''} ${className}`}>
+    <div className={`${hasBg ? '' : 'bg-white'} rounded-2xl shadow-soft ${padding} ${interactive ? 'hover:shadow-card transition-shadow duration-200' : ''} ${className}`}>
       {children}
     </div>
   );
@@ -278,7 +279,7 @@ export function WhatsAppFloat() {
 
 export function DoctorPortrait({ className = '' }) {
   return (
-    <img src={doctorImg} alt="Dra. Xenia Lorena López Martínez" className={`object-cover rounded-3xl aspect-[3/4] ${className}`} />
+    <img src={doctorImg} alt="Dra. Xenia Lorena López Martínez" className={`object-cover object-top rounded-3xl aspect-[3/4] ${className}`} />
   );
 }
 
