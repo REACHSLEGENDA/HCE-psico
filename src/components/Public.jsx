@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MOCK } from '../data/mockData';
 import { Logo, Icon, Avatar, Pill, Button, Card, DoctorPortrait, BlogCover } from './Shared';
+import { supabase } from '../lib/supabaseClient';
 
 // ---------- Public navbar ----------
 export function PublicNav({ page, setPage }) {
   const [open, setOpen] = useState(false);
   const items = [
     { id: 'home',    label: 'Inicio' },
-    { id: 'about',   label: 'La doctora' },
+    { id: 'about',   label: 'Quiénes somos' },
     { id: 'blog',    label: 'Blog' },
-    { id: 'escuelita-pub', label: 'Mini Escuelita' },
+    { id: 'escuelita-pub', label: 'Aprendizaje' },
     { id: 'agendar', label: 'Agendar' }
   ];
   return (
@@ -29,8 +30,8 @@ export function PublicNav({ page, setPage }) {
         </nav>
         <div className="flex items-center gap-3">
 
-          <Button variant="naranja" size="sm" icon="whatsapp" className="hidden lg:inline-flex">
-            55 3196 7446
+          <Button variant="naranja" size="sm" icon="whatsapp" className="hidden lg:inline-flex" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>
+            55 4421 1198
           </Button>
           <button onClick={() => setOpen(o=>!o)} className="md:hidden p-2 rounded-lg hover:bg-morado-50 text-morado-600 cursor-pointer">
             <Icon name={open?'x':'menu'} size={22}/>
@@ -73,7 +74,7 @@ export function Home({ setPage }) {
               <Button variant="primary" size="lg" icon="calendar" onClick={() => setPage('agendar')}>
                 Agendar primera consulta
               </Button>
-              <Button variant="outline" size="lg" icon="whatsapp">
+              <Button variant="outline" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>
                 Hablar por WhatsApp
               </Button>
             </div>
@@ -192,7 +193,7 @@ export function Home({ setPage }) {
             <div className="text-white">
               <Pill tone="naranja" className="mb-4">Sobre mí</Pill>
               <h2 className="font-serif text-3xl md:text-5xl leading-[1.05] font-semibold mb-5" style={{textWrap:'pretty'}}>
-                Soy Xenia. Llevo más de una década en unidades de <span className="italic text-naranja-300">trasplante de órganos</span>.
+                Soy Xenia. Llevo más de 10 años como psicóloga clínica y año y medio en unidades de <span className="italic text-naranja-300">trasplante de órganos</span>.
               </h2>
               <p className="text-white/85 text-lg leading-relaxed mb-5">
                 Psicóloga clínica con más de 10 años de experiencia, enfocada en el tratamiento psicoterapéutico de pacientes adultos y adolescentes, y en el desarrollo de programas psicológicos para pacientes hospitalizados. Actualmente me desempeño como Psicóloga de Trasplante en el Instituto Nacional de Cardiología, brindando atención integral pre y post-trasplante renal y cardíaco desde un enfoque Gestalt-Transpersonal.
@@ -239,12 +240,12 @@ export function Home({ setPage }) {
         <Card padding="p-0" className="overflow-hidden">
           <div className="grid md:grid-cols-[1.1fr_1fr]">
             <div className="p-8 md:p-12 lg:p-16">
-              <Pill tone="morado" icon="graduation" className="mb-4">Mini Escuelita</Pill>
+              <Pill tone="morado" icon="graduation" className="mb-4">Aprendiendo sobre mi trasplante</Pill>
               <h2 className="font-serif text-3xl md:text-4xl text-tinta font-semibold leading-tight mb-4" style={{textWrap:'pretty'}}>
                 Cápsulas educativas <span className="italic text-naranja">hechas para ti</span> y tu proceso
               </h2>
               <p className="text-tinta-600 leading-relaxed mb-6">
-                Videos cortos, lecturas y herramientas prácticas que la Dra. Xenia te asigna según tu etapa: pre-trasplante, post-trasplante o familiar.
+                Videos cortos, lecturas y herramientas prácticas que la Lic. Xenia te asigna según tu etapa: pre-trasplante, post-trasplante o familiar.
               </p>
               <div className="space-y-3 mb-7">
                 {[
@@ -260,7 +261,7 @@ export function Home({ setPage }) {
                   </div>
                 ))}
               </div>
-              <Button variant="primary" icon="play" onClick={() => setPage('escuelita-pub')}>Explorar la Escuelita</Button>
+              <Button variant="primary" icon="play" onClick={() => setPage('escuelita-pub')}>Explorar el aprendizaje</Button>
             </div>
             <div className="bg-crema-200 relative overflow-hidden min-h-[320px] p-8">
               <div className="grid grid-cols-2 gap-3 absolute inset-6">
@@ -298,7 +299,7 @@ export function Home({ setPage }) {
             <p className="text-white/90 text-lg mb-7 max-w-2xl mx-auto">Primera consulta de 80 min para conocernos y trazar el camino — sin compromiso.</p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Button variant="white" size="lg" icon="calendar" onClick={() => setPage('agendar')}>Agendar primera consulta</Button>
-              <Button variant="outlineWhite" size="lg" icon="whatsapp">55 3196 7446</Button>
+              <Button variant="outlineWhite" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>55 4421 1198</Button>
             </div>
           </div>
         </div>
@@ -309,9 +310,31 @@ export function Home({ setPage }) {
 
 // ---------- Blog ----------
 export function Blog() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [cat, setCat] = useState('Todos');
-  const cats = ['Todos', ...new Set(MOCK.BLOG_POSTS.map(p => p.categoria))];
-  const filtered = cat === 'Todos' ? MOCK.BLOG_POSTS : MOCK.BLOG_POSTS.filter(p => p.categoria === cat);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const { data, error } = await supabase
+          .from('blogs')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        setPosts(data || []);
+      } catch (err) {
+        console.error('Error fetching blogs:', err);
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPosts();
+  }, []);
+
+  const cats = ['Todos', ...new Set(posts.map(p => p.categoria))];
+  const filtered = cat === 'Todos' ? posts : posts.filter(p => p.categoria === cat);
   const featured = filtered[0];
   const rest = filtered.slice(1);
 
@@ -327,71 +350,90 @@ export function Blog() {
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-2 justify-center">
-        {cats.map(c => (
-          <button key={c} onClick={() => setCat(c)}
-                  className={`px-4 py-2 rounded-full text-sm font-bold transition-all cursor-pointer
-                    ${cat===c ? 'bg-morado text-white shadow-soft' : 'bg-white text-tinta-600 hover:bg-morado-50 border border-crema-200'}`}>
-            {c}
-          </button>
-        ))}
-      </div>
+      {loading ? (
+        <div className="text-center py-20">
+          <div className="inline-block w-8 h-8 border-4 border-morado border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-tinta-400 text-sm mt-4 font-bold">Cargando lecturas...</p>
+        </div>
+      ) : posts.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-crema-200 p-16 text-center max-w-xl mx-auto space-y-4">
+          <div className="w-14 h-14 bg-morado-50 text-morado-600 rounded-full flex items-center justify-center mx-auto">
+            <Icon name="book" size={24} />
+          </div>
+          <h3 className="font-serif text-xl font-bold text-tinta">Próximamente</h3>
+          <p className="text-tinta-600 text-sm">
+            Estamos preparando las primeras lecturas, reflexiones clínicas y herramientas prácticas. Vuelve pronto para explorar nuestro contenido.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-wrap gap-2 justify-center">
+            {cats.map(c => (
+              <button key={c} onClick={() => setCat(c)}
+                      className={`px-4 py-2 rounded-full text-sm font-bold transition-all cursor-pointer
+                        ${cat===c ? 'bg-morado text-white shadow-soft' : 'bg-white text-tinta-600 hover:bg-morado-50 border border-crema-200'}`}>
+                {c}
+              </button>
+            ))}
+          </div>
 
-      {/* Featured */}
-      {featured && (
-        <Card padding="p-0" interactive className="overflow-hidden group cursor-pointer">
-          <div className="grid md:grid-cols-[1.1fr_1fr]">
-            <div className="aspect-[16/10] md:aspect-auto md:min-h-[420px] relative overflow-hidden">
-              <BlogCover seed={0} />
-              <Pill tone="blanco" className="absolute top-5 left-5">Destacado</Pill>
-            </div>
-            <div className="p-8 md:p-10 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-4">
-                <Pill tone={featured.color === '#F39200' ? 'naranja' : 'morado'} size="md">{featured.categoria}</Pill>
-                <span className="text-xs text-tinta-400 flex items-center gap-1"><Icon name="clock" size={12}/> {featured.min} min</span>
-                <span className="text-xs text-tinta-400">·</span>
-                <span className="text-xs text-tinta-400">{featured.fecha}</span>
-              </div>
-              <h2 className="font-serif text-3xl md:text-4xl text-tinta font-semibold leading-tight mb-4 group-hover:text-morado-600 transition-colors" style={{textWrap:'pretty'}}>
-                {featured.titulo}
-              </h2>
-              <p className="text-tinta-600 leading-relaxed mb-6">{featured.resumen}</p>
-              <div className="flex items-center gap-3">
-                <Avatar initials="MC" tone="naranja" size={40} />
-                <div>
-                  <div className="font-bold text-sm">{featured.autor}</div>
-                  <div className="text-xs text-tinta-400">Psicología Trasplante</div>
+          {/* Featured */}
+          {featured && (
+            <Card padding="p-0" interactive className="overflow-hidden group cursor-pointer">
+              <div className="grid md:grid-cols-[1.1fr_1fr]">
+                <div className="aspect-[16/10] md:aspect-auto md:min-h-[420px] relative overflow-hidden">
+                  <BlogCover seed={0} />
+                  <Pill tone="blanco" className="absolute top-5 left-5">Destacado</Pill>
                 </div>
-                <div className="ml-auto">
-                  <div className="w-10 h-10 rounded-full bg-morado-50 text-morado-600 flex items-center justify-center group-hover:bg-morado group-hover:text-white transition-colors">
-                    <Icon name="arrowUpRight" size={18}/>
+                <div className="p-8 md:p-10 flex flex-col justify-center">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Pill tone={featured.color === '#F39200' ? 'naranja' : 'morado'} size="md">{featured.categoria}</Pill>
+                    <span className="text-xs text-tinta-400 flex items-center gap-1"><Icon name="clock" size={12}/> {featured.min} min</span>
+                    <span className="text-xs text-tinta-400">·</span>
+                    <span className="text-xs text-tinta-400">{featured.fecha || new Date(featured.created_at).toLocaleDateString()}</span>
+                  </div>
+                  <h2 className="font-serif text-3xl md:text-4xl text-tinta font-semibold leading-tight mb-4 group-hover:text-morado-600 transition-colors" style={{textWrap:'pretty'}}>
+                    {featured.titulo}
+                  </h2>
+                  <p className="text-tinta-600 leading-relaxed mb-6">{featured.resumen}</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar initials="XL" tone="naranja" size={40} />
+                    <div>
+                      <div className="font-bold text-sm">{featured.autor || 'Dra. Xenia Lorena López Martínez'}</div>
+                      <div className="text-xs text-tinta-400">Psicología Trasplante</div>
+                    </div>
+                    <div className="ml-auto">
+                      <div className="w-10 h-10 rounded-full bg-morado-50 text-morado-600 flex items-center justify-center group-hover:bg-morado group-hover:text-white transition-colors">
+                        <Icon name="arrowUpRight" size={18}/>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </Card>
-      )}
+            </Card>
+          )}
 
-      {/* Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {rest.map((p, i) => (
-          <Card key={p.id} padding="p-0" interactive className="overflow-hidden group cursor-pointer flex flex-col">
-            <div className="aspect-[16/10] relative overflow-hidden">
-              <BlogCover seed={i+1} />
-              <Pill tone="blanco" className="absolute top-4 left-4">{p.categoria}</Pill>
-            </div>
-            <div className="p-6 flex flex-col flex-1">
-              <h3 className="font-serif text-xl text-tinta font-semibold leading-snug mb-3 group-hover:text-morado-600 transition-colors" style={{textWrap:'pretty'}}>{p.titulo}</h3>
-              <p className="text-sm text-tinta-600 leading-relaxed mb-5 flex-1 line-clamp-3">{p.resumen}</p>
-              <div className="flex items-center justify-between text-xs text-tinta-400 pt-4 border-t border-crema-200">
-                <span>{p.fecha}</span>
-                <span className="flex items-center gap-1"><Icon name="clock" size={12}/> {p.min} min</span>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
+          {/* Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {rest.map((p, i) => (
+              <Card key={p.id} padding="p-0" interactive className="overflow-hidden group cursor-pointer flex flex-col">
+                <div className="aspect-[16/10] relative overflow-hidden">
+                  <BlogCover seed={i+1} />
+                  <Pill tone="blanco" className="absolute top-4 left-4">{p.categoria}</Pill>
+                </div>
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="font-serif text-xl text-tinta font-semibold leading-snug mb-3 group-hover:text-morado-600 transition-colors" style={{textWrap:'pretty'}}>{p.titulo}</h3>
+                  <p className="text-sm text-tinta-600 leading-relaxed mb-5 flex-1 line-clamp-3">{p.resumen}</p>
+                  <div className="flex items-center justify-between text-xs text-tinta-400 pt-4 border-t border-crema-200">
+                    <span>{p.fecha || new Date(p.created_at).toLocaleDateString()}</span>
+                    <span className="flex items-center gap-1"><Icon name="clock" size={12}/> {p.min} min</span>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* Newsletter */}
       <Card padding="p-8 md:p-12" className="bg-morado text-white text-center relative overflow-hidden">
@@ -545,7 +587,7 @@ export function Agendar() {
 
           <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-crema-200">
             <Button variant="primary" size="lg" icon="calendar" className="flex-1">Confirmar cita</Button>
-            <Button variant="outline" size="lg" icon="whatsapp" className="flex-1 !text-[#1da851] !border-[#25D366] hover:!bg-[#E8F8EF]">Mejor por WhatsApp</Button>
+            <Button variant="outline" size="lg" icon="whatsapp" className="flex-1 !text-[#1da851] !border-[#25D366] hover:!bg-[#E8F8EF]" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>Mejor por WhatsApp</Button>
           </div>
         </Card>
 
@@ -570,7 +612,7 @@ export function Agendar() {
               <h3 className="font-bold text-sm">Qué incluye</h3>
             </div>
             <ul className="space-y-2 text-sm text-tinta-600 text-left">
-              {['Sesión con la Dra. Xenia','Acceso a la Mini Escuelita','Notas clínicas para tu equipo médico (opcional)','Reagendado gratis hasta 24 hrs antes'].map((t,i) => (
+              {['Sesión con la Lic. Xenia','Acceso a la Unidad de Aprendizaje','Notas clínicas para tu equipo médico (opcional)','Reagendado gratis hasta 24 hrs antes'].map((t,i) => (
                 <li key={i} className="flex gap-2"><Icon name="check" size={16} className="text-morado mt-0.5 flex-shrink-0"/>{t}</li>
               ))}
             </ul>
@@ -580,7 +622,7 @@ export function Agendar() {
               <Icon name="info" size={22} className="flex-shrink-0 mt-0.5"/>
               <div>
                 <div className="font-bold mb-1">¿Es una urgencia?</div>
-                <p className="text-sm text-white/90 leading-relaxed mb-3">Si estás en crisis, llámame directo: <strong>55 3196 7446</strong></p>
+                <p className="text-sm text-white/90 leading-relaxed mb-3">Si estás en crisis, llámame directo: <strong>55 4421 1198</strong></p>
                 <Button variant="white" size="sm" icon="phone">Llamar ahora</Button>
               </div>
             </div>
@@ -628,12 +670,12 @@ export function About() {
           </div>
         </div>
         <div>
-          <Pill tone="morado" className="mb-4">La doctora</Pill>
+          <Pill tone="morado" className="mb-4">Quién soy</Pill>
           <h1 className="font-serif text-4xl md:text-5xl text-tinta font-semibold leading-tight mb-5" style={{textWrap:'pretty'}}>
-            Dra. <span className="italic text-morado">Xenia Lorena López Martínez</span>
+            Lic. <span className="italic text-morado">Xenia Lorena López Martínez</span>
           </h1>
           <p className="text-tinta-600 text-lg leading-relaxed mb-4">
-            Psicóloga de Trasplante en el Instituto Nacional de Cardiología. Licenciada en Psicología por la UNAM, con Especialidad en Psicoterapia Transpersonal y Diplomado en Psiconefrología. Cédula profesional 12105016.
+            Psicóloga de Trasplante en el Instituto Nacional de Cardiología. Licenciada en Psicología por la UNAM, con Especialidad en Psicoterapia Transpersonal y Diplomado en Psiconefrología. Cédula profesional 12105016. Cuenta con año y medio de experiencia en unidades de trasplante de órganos y más de 10 años de trayectoria como psicóloga clínica.
           </p>
           <p className="text-tinta-600 leading-relaxed">
             "Mi trabajo no es hacer que el trasplante sea fácil. Es hacer que no estés sola mientras lo atraviesas."
@@ -668,54 +710,23 @@ export function About() {
   );
 }
 
-// ---------- Mini Escuelita pública ----------
 export function EscuelitaPub() {
   return (
-    <div className="max-w-7xl mx-auto px-5 lg:px-8 py-12 md:py-16 text-left">
-      <div className="text-center max-w-3xl mx-auto mb-12">
-        <Pill tone="naranja" icon="graduation" className="mb-4">Mini Escuelita</Pill>
-        <h1 className="font-serif text-5xl md:text-6xl text-tinta font-semibold leading-tight mb-4" style={{textWrap:'pretty'}}>
-          Aprende a tu <span className="italic text-morado">propio ritmo</span>
+    <div className="max-w-7xl mx-auto px-5 lg:px-8 py-16 md:py-24 text-left">
+      <div className="text-center max-w-2xl mx-auto space-y-6">
+        <Pill tone="naranja" icon="graduation" className="mb-4">Aprendiendo sobre mi trasplante</Pill>
+        <h1 className="font-serif text-4xl md:text-5xl text-tinta font-semibold leading-tight" style={{textWrap:'pretty'}}>
+          Unidad de <span className="italic text-morado">aprendizaje</span>
         </h1>
         <p className="text-tinta-600 text-lg leading-relaxed">
-          Cápsulas educativas que la Dra. Xenia ha curado para pacientes y familias. Algunas son públicas; la mayoría se activan cuando empiezas consulta.
+          Próximamente. Estamos preparando un espacio educativo con cápsulas informativas en video, lecturas y guías prácticas especialmente diseñadas para acompañarte a ti y a tu familia en cada etapa de tu proceso de trasplante.
         </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {MOCK.ESCUELITA.map((e, i) => {
-          const locked = i > 1;
-          return (
-            <Card key={e.id} padding="p-0" interactive className="overflow-hidden flex flex-col">
-              <div className={`aspect-[16/9] relative ${e.tipo==='video'?'bg-morado':'bg-naranja'} overflow-hidden`}>
-                <svg viewBox="0 0 400 225" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-                  <circle cx="80"  cy="60"  r="50" fill="white" opacity=".15"/>
-                  <circle cx="320" cy="170" r="80" fill="white" opacity=".12"/>
-                  <circle cx="280" cy="50"  r="20" fill="white" opacity=".2"/>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white/95 flex items-center justify-center shadow-card text-morado">
-                    <Icon name={locked?'shield':e.tipo==='video'?'play':e.tipo==='pdf'?'fileText':'book'} size={26}/>
-                  </div>
-                </div>
-                <Pill tone="blanco" className="absolute top-4 left-4">{e.cat}</Pill>
-                <Pill tone={locked?'morado':'naranja'} className="absolute top-4 right-4">{locked?'Privado':'Acceso libre'}</Pill>
-                <span className="absolute bottom-4 right-4 text-white text-xs font-bold bg-black/35 px-2 py-1 rounded-full">{e.dur}</span>
-              </div>
-              <div className="p-5 flex-1 flex flex-col">
-                <div className="text-[11px] text-tinta-400 font-bold uppercase tracking-wide mb-1.5">{e.tipo}</div>
-                <h3 className="font-bold text-tinta leading-snug mb-3" style={{textWrap:'pretty'}}>{e.titulo}</h3>
-                <div className="mt-auto">
-                  {locked ? (
-                    <Button variant="soft" size="sm" icon="shield" className="w-full">Iniciar sesión para ver</Button>
-                  ) : (
-                    <Button variant="primary" size="sm" icon="play" className="w-full">Ver cápsula</Button>
-                  )}
-                </div>
-              </div>
-            </Card>
-          );
-        })}
+        <div className="pt-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-crema-200 text-sm font-bold text-tinta-600">
+            <Icon name="clock" size={16} className="text-naranja" />
+            Disponible muy pronto
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -748,9 +759,9 @@ export function PublicFooter({ setPage }) {
           <div className="font-bold mb-4 text-sm">Navega</div>
           <ul className="space-y-2 text-sm text-white/75">
             <li><a className="hover:text-naranja-300 cursor-pointer hover:underline" onClick={() => setPage('home')}>Inicio</a></li>
-            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('about')}>La doctora</a></li>
+            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('about')}>Quiénes somos</a></li>
             <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('blog')}>Blog</a></li>
-            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('escuelita-pub')}>Mini Escuelita</a></li>
+            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('escuelita-pub')}>Aprendiendo sobre mi trasplante</a></li>
             <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('agendar')}>Agendar cita</a></li>
           </ul>
         </div>
@@ -764,7 +775,7 @@ export function PublicFooter({ setPage }) {
           <div className="font-bold mb-4 text-sm">Contacto</div>
           <ul className="space-y-2.5 text-sm text-white/75">
             <li className="flex gap-2"><Icon name="pin" size={16} className="flex-shrink-0 mt-0.5"/> Tlalpan, CDMX</li>
-            <li className="flex gap-2"><Icon name="phone" size={16}/> 55 3196 7446</li>
+            <li className="flex gap-2"><Icon name="phone" size={16}/> 55 4421 1198</li>
             <li className="flex gap-2"><Icon name="mail" size={16}/> xenialorenalopezmartinez@gmail.com</li>
             <li className="flex gap-2"><Icon name="clock" size={16}/> Lun–Vie 9:00–19:00</li>
           </ul>
@@ -772,7 +783,7 @@ export function PublicFooter({ setPage }) {
       </div>
       <div className="relative border-t border-white/15">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 py-5 flex flex-col md:flex-row gap-2 justify-between items-center text-xs text-white/60">
-          <div>© 2026 Psicología Trasplante · Dra. Xenia Lorena López Martínez · Cédula 12105016</div>
+          <div>© 2026 Psicología Trasplante · Lic. Xenia Lorena López Martínez · Cédula 12105016</div>
           <div className="flex gap-4">
             <a className="hover:text-white cursor-pointer">Aviso de privacidad</a>
             <a className="hover:text-white cursor-pointer">Términos</a>

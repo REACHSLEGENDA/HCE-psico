@@ -10,7 +10,8 @@ export function Sidebar({ page, setPage }) {
     { id: 'calendario', label: 'Calendario',       icon: 'calendar', count: 6 },
     { id: 'mensajes',   label: 'Bandeja',          icon: 'inbox',    count: 3, badge: true },
     { id: 'notas',      label: 'Notas',            icon: 'edit',     count: null },
-    { id: 'escuelita',  label: 'Mini Escuelita',   icon: 'graduation', count: 23 }
+    { id: 'escuelita',  label: 'Unidad de aprendizaje',   icon: 'graduation', count: 23 },
+    { id: 'blog',       label: 'Gestionar Blog',   icon: 'book',     count: null }
   ];
   return (
     <aside className="w-[240px] bg-morado-700 text-white flex flex-col flex-shrink-0 relative overflow-hidden text-left">

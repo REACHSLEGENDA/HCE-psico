@@ -201,7 +201,7 @@ export function ExpedienteDetalle({ pid, back, openCrm }) {
     { id: 'examenes',    label: 'Exámenes',          icon: 'fileImage', count: 8 },
     { id: 'tratamiento', label: 'Tratamiento',       icon: 'pill' },
     { id: 'plan',        label: 'Plan terapéutico',  icon: 'clipboard' },
-    { id: 'escuelita',   label: 'Mini Escuelita',    icon: 'graduation', count: 4 }
+    { id: 'escuelita',   label: 'Aprendizaje',    icon: 'graduation', count: 4 }
   ];
 
   return (
@@ -482,7 +482,7 @@ export function TabNotas({ openCrm }) {
             <h3>P — Plan</h3>
             <ul className="list-disc list-inside space-y-1">
               <li>Tarea: redactar borrador de carta al donante anónimo (no se enviará por ahora — ejercicio de procesamiento).</li>
-              <li>Asignar cápsula "¿Qué es la culpa del receptor?" en Mini Escuelita.</li>
+              <li>Asignar cápsula "¿Qué es la culpa del receptor?" en la Unidad de aprendizaje.</li>
               <li>Continuar diario emocional con foco en sueño y alimentación.</li>
               <li>Próxima sesión: 28 may 10:00. Considerar invitar al esposo a sesión de 4 jun.</li>
             </ul>
@@ -755,7 +755,7 @@ export function TabEscuelitaAsignada() {
       <Card>
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h3 className="font-serif text-xl font-semibold">Mini Escuelita asignada</h3>
+            <h3 className="font-serif text-xl font-semibold">Unidad de aprendizaje asignada</h3>
             <p className="text-xs text-tinta-400 mt-0.5">4 cápsulas · 3 vistas · 1 pendiente</p>
           </div>
           <Button variant="primary" size="sm" icon="plus">Asignar cápsula</Button>

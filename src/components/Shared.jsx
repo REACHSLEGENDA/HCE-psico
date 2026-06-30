@@ -258,12 +258,12 @@ export function WhatsAppFloat() {
               <Icon name="whatsapp" size={18} />
             </div>
             <div>
-              <div className="font-bold text-sm">Dra. Xenia Lorena López Martínez</div>
+              <div className="font-bold text-sm">Lic. Xenia Lorena López Martínez</div>
               <div className="text-xs text-tinta-400">Responde en ~15 min</div>
             </div>
           </div>
-          <p className="text-sm text-tinta-600 mb-3">Hola, soy la doctora. ¿En qué puedo acompañarte hoy?</p>
-          <Button variant="primary" size="sm" icon="whatsapp" className="w-full !bg-[#25D366] hover:!bg-[#1da851]">
+          <p className="text-sm text-tinta-600 mb-3">Hola, soy la Lic. Xenia. ¿En qué puedo acompañarte hoy?</p>
+          <Button variant="primary" size="sm" icon="whatsapp" className="w-full !bg-[#25D366] hover:!bg-[#1da851]" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>
             Iniciar conversación
           </Button>
         </div>

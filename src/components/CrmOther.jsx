@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MOCK } from '../data/mockData';
 import { Logo, Icon, Avatar, Pill, Button, Card } from './Shared';
 import { KpiCard, Mini } from './CrmDashboard';
 import { FilterChip } from './CrmExpediente';
+import { supabase } from '../lib/supabaseClient';
 
 // ---------- Calendario ----------
 export function Calendario({ openPaciente }) {
@@ -328,7 +329,7 @@ export function Bandeja({ openPaciente }) {
               <ChatBubble from="me" text="Te leo, María. Es muy frecuente que después del trasplante aparezcan sueños vívidos. ¿Cómo está tu sueño en general estos días?" hora="08:44"/>
               <ChatBubble from="them" text="Mal. Llevo durmiendo 5 hrs por noche desde hace una semana." hora="08:46"/>
               <ChatBubble from="me" text="Hagámoslo el jueves en sesión. Por ahora aplica respiración 4-7-8 antes de dormir + deja papel y pluma al lado de la cama para escribir los sueños al despertar — los traemos a sesión." hora="08:48"/>
-              <ChatBubble from="them" text="Gracias doctora 🙏" hora="08:50"/>
+              <ChatBubble from="them" text="Gracias Lic. 🙏" hora="08:50"/>
             </div>
 
             {/* Compositor */}
@@ -421,35 +422,25 @@ export function ChatBubble({ from, text, hora }) {
   );
 }
 
-// ---------- Mini Escuelita (admin) ----------
-export function EscuelitaAdmin({ openPaciente }) {
-  const [view, setView] = useState('biblioteca');
+// ---------- Unidad de aprendizaje (admin) ----------
+export function EscuelitaAdmin() {
   return (
-    <div className="p-8 max-w-[1400px] space-y-5 mx-auto text-left">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="inline-flex bg-crema-100 rounded-xl p-1">
-          {[
-            { id:'biblioteca', label:'Biblioteca',  icon:'layers' },
-            { id:'asignar',    label:'Asignaciones', icon:'send' },
-            { id:'reportes',   label:'Reportes',    icon:'trending' }
-          ].map(v => (
-            <button key={v.id} onClick={() => setView(v.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer
-                      ${view===v.id ? 'bg-white shadow-soft text-morado-600' : 'text-tinta-400'}`}>
-              <Icon name={v.icon} size={14}/>
-              {v.label}
-            </button>
-          ))}
+    <div className="p-8 max-w-[1400px] mx-auto text-left">
+      <div className="bg-white rounded-2xl border border-crema-200 p-12 text-center max-w-2xl mx-auto space-y-4">
+        <div className="w-16 h-16 bg-morado-50 text-morado-600 rounded-full flex items-center justify-center mx-auto">
+          <Icon name="graduation" size={32} />
         </div>
-        <div className="flex gap-2">
-          <Button variant="soft" size="sm" icon="upload">Subir contenido</Button>
-          <Button variant="primary" size="sm" icon="plus">Nueva cápsula</Button>
+        <h2 className="font-serif text-2xl font-bold text-tinta">Unidad de aprendizaje</h2>
+        <p className="text-tinta-600">
+          Esta sección administrativa se encuentra temporalmente desactivada mientras se definen las cápsulas y el flujo de aprendizaje oficial para los pacientes de trasplante.
+        </p>
+        <div className="pt-4">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-crema-100 text-xs font-bold text-tinta-400">
+            <Icon name="info" size={14} />
+            Módulo en diseño
+          </span>
         </div>
       </div>
-
-      {view === 'biblioteca' && <BibliotecaView/>}
-      {view === 'asignar'    && <AsignarView openPaciente={openPaciente}/>}
-      {view === 'reportes'   && <ReportesEscuelita/>}
     </div>
   );
 }
@@ -656,6 +647,208 @@ export function NotasStandalone() {
             </Card>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+// ---------- BlogAdmin ----------
+export function BlogAdmin() {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // Form states
+  const [titulo, setTitulo] = useState('');
+  const [resumen, setResumen] = useState('');
+  const [categoria, setCategoria] = useState('Duelo');
+  const [min, setMin] = useState(5);
+  const [autor, setAutor] = useState('Dra. Xenia Lorena López Martínez');
+  const [color, setColor] = useState('#7B2D8E');
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  async function fetchPosts() {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('blogs')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      setPosts(data || []);
+    } catch (err) {
+      console.error('Error fetching blogs in admin:', err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!titulo || !resumen) {
+      alert('Por favor, ingresa título y resumen del artículo.');
+      return;
+    }
+    setSaving(true);
+    try {
+      const { error } = await supabase.from('blogs').insert([
+        {
+          titulo,
+          resumen,
+          categoria,
+          min: parseInt(min),
+          autor,
+          color,
+          fecha: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
+        }
+      ]);
+      if (error) throw error;
+      
+      // Reset form
+      setTitulo('');
+      setResumen('');
+      setCategoria('Duelo');
+      setMin(5);
+      setColor('#7B2D8E');
+      
+      // Refresh list
+      fetchPosts();
+      alert('Artículo publicado exitosamente.');
+    } catch (err) {
+      console.error('Error saving blog post:', err);
+      alert('Ocurrió un error al guardar el artículo: ' + err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete(id) {
+    if (!confirm('¿Estás seguro de que deseas eliminar este artículo de blog?')) return;
+    try {
+      const { error } = await supabase.from('blogs').delete().eq('id', id);
+      if (error) throw error;
+      fetchPosts();
+    } catch (err) {
+      console.error('Error deleting blog post:', err);
+      alert('Ocurrió un error al borrar el artículo.');
+    }
+  }
+
+  return (
+    <div className="p-8 max-w-[1400px] mx-auto text-left">
+      <div className="grid lg:grid-cols-[1fr_380px] gap-8">
+        
+        {/* Lista de posts */}
+        <div className="space-y-5">
+          <Card>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h3 className="font-serif text-xl font-bold text-tinta">Artículos publicados</h3>
+                <p className="text-xs text-tinta-400 mt-0.5">Control de novedades del blog principal</p>
+              </div>
+              <Button variant="soft" size="sm" icon="refresh" onClick={fetchPosts}>Actualizar</Button>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="inline-block w-6 h-6 border-2 border-morado border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-xs text-tinta-400 mt-2 font-bold">Cargando...</p>
+              </div>
+            ) : posts.length === 0 ? (
+              <div className="text-center py-12 border-2 border-dashed border-crema-200 rounded-xl">
+                <p className="text-sm text-tinta-400 font-bold">No hay artículos publicados</p>
+                <p className="text-xs text-tinta-300 mt-1">Utiliza el formulario de la derecha para publicar el primero.</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-crema-100">
+                {posts.map(p => (
+                  <div key={p.id} className="py-4 first:pt-0 last:pb-0 flex items-start gap-4">
+                    <div className="w-2.5 h-10 rounded-full flex-shrink-0" style={{ backgroundColor: p.color || '#7B2D8E' }}></div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Pill tone={p.color === '#F39200' ? 'naranja' : 'morado'} size="sm">{p.categoria}</Pill>
+                        <span className="text-[11px] text-tinta-400">{p.fecha || new Date(p.created_at).toLocaleDateString()}</span>
+                        <span className="text-[11px] text-tinta-400">· {p.min} min</span>
+                      </div>
+                      <h4 className="font-bold text-tinta text-sm truncate">{p.titulo}</h4>
+                      <p className="text-xs text-tinta-500 line-clamp-2 mt-0.5">{p.resumen}</p>
+                    </div>
+                    <button onClick={() => handleDelete(p.id)} className="p-2 text-tinta-300 hover:text-red-600 rounded-lg hover:bg-red-50 transition-colors cursor-pointer">
+                      <Icon name="trash" size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+        </div>
+
+        {/* Formulario de creación */}
+        <div>
+          <Card>
+            <h3 className="font-serif text-lg font-bold text-tinta mb-5">Publicar nuevo artículo</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="text-xs font-bold text-tinta-500 block mb-1.5">Título del artículo</label>
+                <input type="text" value={titulo} onChange={e => setTitulo(e.target.value)} placeholder="Ej: La importancia del autocuidado..."
+                       className="w-full px-4 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium"/>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-tinta-500 block mb-1.5">Categoría</label>
+                  <select value={categoria} onChange={e => setCategoria(e.target.value)}
+                          className="w-full px-3 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium">
+                    <option value="Duelo">Duelo</option>
+                    <option value="Adherencia">Adherencia</option>
+                    <option value="Familia">Familia</option>
+                    <option value="Pre-trasplante">Pre-trasplante</option>
+                    <option value="Post-trasplante">Post-trasplante</option>
+                    <option value="Cuerpo y mente">Cuerpo y mente</option>
+                    <option value="Pediátrico">Pediátrico</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-tinta-500 block mb-1.5">Lectura (minutos)</label>
+                  <input type="number" min="1" value={min} onChange={e => setMin(e.target.value)}
+                         className="w-full px-3 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium"/>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-tinta-500 block mb-1.5">Color acento</label>
+                  <select value={color} onChange={e => setColor(e.target.value)}
+                          className="w-full px-3 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium">
+                    <option value="#7B2D8E">Morado</option>
+                    <option value="#F39200">Naranja</option>
+                    <option value="#2E86AB">Azul</option>
+                    <option value="#C0392B">Rojo</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-tinta-500 block mb-1.5">Autor</label>
+                  <input type="text" value={autor} onChange={e => setAutor(e.target.value)}
+                         className="w-full px-3 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium"/>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-tinta-500 block mb-1.5">Resumen o copete</label>
+                <textarea rows="4" value={resumen} onChange={e => setResumen(e.target.value)} placeholder="Breve introducción para enganchar al lector en la grilla principal..."
+                          className="w-full px-4 py-2.5 rounded-xl bg-crema-100 border border-crema-200 focus:border-morado focus:bg-white outline-none text-sm font-medium resize-none"/>
+              </div>
+
+              <Button type="submit" variant="primary" className="w-full" icon="plus" disabled={saving}>
+                {saving ? 'Publicando...' : 'Publicar artículo'}
+              </Button>
+            </form>
+          </Card>
+        </div>
+
       </div>
     </div>
   );
