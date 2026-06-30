@@ -8,10 +8,10 @@ export function PublicNav({ page, setPage }) {
   const [open, setOpen] = useState(false);
   const items = [
     { id: 'home',    label: 'Inicio' },
-    { id: 'about',   label: 'Quiénes somos' },
-    { id: 'blog',    label: 'Blog' },
-    { id: 'escuelita-pub', label: 'Aprendizaje' },
-    { id: 'agendar', label: 'Agendar' }
+    { id: 'about',   label: 'Quiénes somos' }
+    // { id: 'blog',    label: 'Blog' },
+    // { id: 'escuelita-pub', label: 'Aprendizaje' },
+    // { id: 'agendar', label: 'Agendar' }
   ];
   return (
     <header className="sticky top-0 z-40 bg-crema/85 backdrop-blur-md border-b border-crema-200/80">
@@ -71,11 +71,8 @@ export function Home({ setPage }) {
               antes, durante y después— con escucha clínica especializada.
             </p>
             <div className="flex flex-wrap gap-3 mb-8">
-              <Button variant="primary" size="lg" icon="calendar" onClick={() => setPage('agendar')}>
-                Agendar primera consulta
-              </Button>
-              <Button variant="outline" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>
-                Hablar por WhatsApp
+              <Button variant="primary" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>
+                Agendar por WhatsApp
               </Button>
             </div>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-tinta-600">
@@ -112,8 +109,8 @@ export function Home({ setPage }) {
                   <p className="text-xs text-tinta-400 mt-2 font-semibold">— Daniela R., trasplante hepático</p>
                 </Card>
                 <Card padding="p-5" className="bg-morado text-white">
-                  <Icon name="stethoscope" size={22} className="mb-2 text-naranja-300"/>
-                  <div className="font-bold mb-1">Dra. Xenia Lorena López Martínez</div>
+                  <Icon name="heart" size={22} className="mb-2 text-naranja-300"/>
+                  <div className="font-bold mb-1">Lic. Xenia Lorena López Martínez</div>
                   <div className="text-xs text-white/70">Psicóloga Clínica · Especialista en Trasplante · Instituto Nacional de Cardiología</div>
                 </Card>
                 <Card padding="p-5" className="bg-naranja text-white shadow-card">
@@ -235,7 +232,8 @@ export function Home({ setPage }) {
         </div>
       </section>
 
-      {/* MINI ESCUELITA TEASER */}
+      {/* MINI ESCUELITA TEASER - OCULTADO */}
+      {/* 
       <section className="max-w-7xl mx-auto px-5 lg:px-8">
         <Card padding="p-0" className="overflow-hidden">
           <div className="grid md:grid-cols-[1.1fr_1fr]">
@@ -282,6 +280,7 @@ export function Home({ setPage }) {
           </div>
         </Card>
       </section>
+      */}
 
       {/* CTA */}
       <section className="max-w-5xl mx-auto px-5 lg:px-8 text-center">
@@ -298,8 +297,7 @@ export function Home({ setPage }) {
             </h2>
             <p className="text-white/90 text-lg mb-7 max-w-2xl mx-auto">Primera consulta de 80 min para conocernos y trazar el camino — sin compromiso.</p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Button variant="white" size="lg" icon="calendar" onClick={() => setPage('agendar')}>Agendar primera consulta</Button>
-              <Button variant="outlineWhite" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>55 4421 1198</Button>
+              <Button variant="white" size="lg" icon="whatsapp" onClick={() => window.open('https://wa.me/525544211198', '_blank')}>Agendar por WhatsApp</Button>
             </div>
           </div>
         </div>
@@ -758,11 +756,13 @@ export function PublicFooter({ setPage }) {
         <div>
           <div className="font-bold mb-4 text-sm">Navega</div>
           <ul className="space-y-2 text-sm text-white/75">
+            {/* <li><a className="hover:text-naranja-300 cursor-pointer hover:underline" onClick={() => setPage('home')}>Inicio</a></li> */}
+            {/* <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('about')}>Quiénes somos</a></li> */}
+            {/* <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('blog')}>Blog</a></li> */}
+            {/* <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('escuelita-pub')}>Aprendiendo sobre mi trasplante</a></li> */}
+            {/* <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('agendar')}>Agendar cita</a></li> */}
             <li><a className="hover:text-naranja-300 cursor-pointer hover:underline" onClick={() => setPage('home')}>Inicio</a></li>
             <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('about')}>Quiénes somos</a></li>
-            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('blog')}>Blog</a></li>
-            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('escuelita-pub')}>Aprendiendo sobre mi trasplante</a></li>
-            <li><a className="hover:text-naranja-300 cursor-pointer" onClick={() => setPage('agendar')}>Agendar cita</a></li>
           </ul>
         </div>
         <div>
